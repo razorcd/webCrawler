@@ -1,0 +1,19 @@
+{
+  "name": "WebCrawler",
+  "version": "0.1.0",
+  "description": "web crawler",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "web",
+    "crawler"
+  ],
+  "author": "Razor",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^3.14.0",
+    "request": "^2.37.0"
+  }
+}
