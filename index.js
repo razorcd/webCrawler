@@ -12,12 +12,26 @@ app.get('/', function(req,res){
 
 app.get('/crawl', function(req,res){
 	res.set('Content-Type','text/plain');
-	var crawl = new Crawler(req.query.address, req.query.itterations);
+	var o1 = new Obj(req.query.address, req.query.itterations);
 
-	crawl.getAllLinks(function(err, linkList){
-		if (err) { res.send(err); return; }
-		res.send(linkList);
-	})
+  Crawler.e.on('done', function(){
+    res.send(200, o1);
+  })
+
+
+// var o1 = new Obj("http://www.google.com/", 2);
+// console.log('o1: ',o1);
+// //console.log('o1.links[1].links: ',o1.links[0].links);
+
+// setTimeout(function(){
+//   console.log('o1: ', o1);
+// }, 4000);
+
+
+
+
+
+
 
 });
 

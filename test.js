@@ -4,19 +4,19 @@ console.log('-----------------------');
 
 var done = 0;
 
-exports.e = e = new Event;  //must include this in a constructor and call Obj fro here
+var e = new Event;
 
-// e.on('done', function(){
-//   console.log('DONE');
-// })
-
-
+e.on('done', function(){
+  console.log('DONE');
+})
 
 
 
 
 
-exports.Obj = Obj = function(address, itterations){
+
+
+var Obj = function(address, itterations){
   this.address=address;
   this.itterations=itterations;
 
@@ -54,13 +54,13 @@ exports.Obj = Obj = function(address, itterations){
 // }
 
 
-// var o1 = new Obj("http://www.google.com/", 2);
-// console.log('o1: ',o1);
-// //console.log('o1.links[1].links: ',o1.links[0].links);
+var o1 = new Obj("http://www.google.com/", 2);
+console.log('o1: ',o1);
+//console.log('o1.links[1].links: ',o1.links[0].links);
 
-// setTimeout(function(){
-//   console.log('o1: ', o1);
-// }, 4000);
+setTimeout(function(){
+  console.log('o1: ', o1);
+}, 4000);
 
 
 
@@ -159,9 +159,4 @@ function getAllLinks(address,cb){
 
 
 
-
-if (process.ENV === 'test') {
-	exports.getAllLinks = getAllLinks;
-	exports._getLinks = _getLinks;
-	//...
-}
+module.exports = Obj;

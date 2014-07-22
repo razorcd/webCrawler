@@ -13,9 +13,8 @@
   "author": "Razor",
   "license": "ISC",
   "dependencies": {
-    "async": "^0.9.0",
     "express": "^3.14.0",
-    "q": "^1.0.1",
-    "request": "^2.37.0"
+    "request": "^2.37.0",
+    "q": "^1.0.1"
   }
 }
