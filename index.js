@@ -14,14 +14,11 @@ app.get('/crawl', function(req,res){
 	res.set('Content-Type','text/plain');
 	var crawl = new Crawler(req.query.address, req.query.itterations);
 
-	crawl.getPage(function(err,body){
-		crawl.getElements(err,body, function(err, elemArray){
-			crawl.getLinks(err,elemArray, function(err, linkList){
-				if (err) { res.send(err); return; }
-				res.send(linkList);
-			})
-		})
+	crawl.getAllLinks(function(err, linkList){
+		if (err) { res.send(err); return; }
+		res.send(linkList);
 	})
+
 });
 
 /*** ROUTES END***/
