@@ -17,6 +17,25 @@ describe("private functions in Crowler.js should work: ", function() {
     })
 
 
+
+
+
+    it('should request and retrieve the body', function(done){
+      Crawler._getPage('http://www.razor3ds.com', function(err, body){
+        //console.log(body);
+        //console.log(typeof body);
+        expect(body).toBeDefined();
+        expect(typeof body).toBe('string');
+        expect(body.search('</html>')).not.toBe(-1);  //body ends with '</html>'
+        done();
+      })  
+    })
+
+
+
+
+
+
     it('should request and retrieve the body', function(done){
       Crawler._getPage('http://www.google.com', function(err, body){
         expect(body).toBeDefined();
@@ -39,7 +58,7 @@ describe("private functions in Crowler.js should work: ", function() {
       })  
 
       start++;
-      Crawler._getPage('http://www.yahoo.com', function(err, body){
+      Crawler._getPage('http://www.facebook.com', function(err, body){
         expect(body).toBeDefined();
         expect(typeof body).toBe('string');
         start--;
@@ -62,16 +81,19 @@ describe("private functions in Crowler.js should work: ", function() {
         if (start === 0)  done();
       })  
 
-      // for (var i = 0; i < 10; i++) {
-      //   start++;
-      //   Crawler._getPage('http://www.google.com', function(err, body){
-      //     expect(body).toBeDefined();
-      //     expect(typeof body).toBe('string');
-      //     start--;
-      //     if (start === 0)  done();
-      //   })  
-      // }
+      for (var i = 0; i < 10; i++) {
+        start++;
+        Crawler._getPage('http://www.google.com', function(err, body){
+          expect(body).toBeDefined();
+          expect(typeof body).toBe('string');
+          start--;
+          if (start === 0)  done();
+        })  
+      }
     });
+
+
+
 
 
     it('should return error when host does not respond/not exists', function(done){
@@ -94,7 +116,7 @@ describe("private functions in Crowler.js should work: ", function() {
     })
   })
 
-  
+
   describe("_getElements function", function() {
     var body = ' <html><header><link ref="http://www.razor3ds.com/somecss.css" /></header>'
               +' <body> <p> Paragraph </p>'
@@ -220,9 +242,9 @@ describe("private functions in Crowler.js should work: ", function() {
       expect(host).toBe('http://www.razor3ds.com');
 
       var host = Crawler._getHost('tyrtyrty/sdf');
-      expect(host).toBe('tyrtyrty/sdf');
+      expect(host).toBe('');
     });
-    
+
   })
 
 
@@ -249,7 +271,8 @@ describe("private functions in Crowler.js should work: ", function() {
     })
 
     it("should retrive a list of links from specified url", function(done) {
-      Crawler.getAllLinks('http://www.java.com', ev, function(err, linkList){
+      var host = Crawler._getHost('http://www.java.com');
+      Crawler.getAllLinks('http://www.java.com',host, ev, function(err, linkList){
         expect(err).toBe(null);
         expect(linkList).toBeDefined();
         expect(linkList.length>0).toBeTruthy();
@@ -260,8 +283,8 @@ describe("private functions in Crowler.js should work: ", function() {
 
 
     it('should get an error when wrog url is sent', function(done){
-
-      Crawler.getAllLinks('sdfsdfsdfsd', ev, function(err,linkList){
+      var host = Crawler._getHost('gdsfgsdgdsfgdfg');
+      Crawler.getAllLinks('sdfsdfsdfsd',host, ev, function(err,linkList){
         expect(err).not.toBe(null);
         expect(linkList).toBeUndefined();
         done();
@@ -270,32 +293,13 @@ describe("private functions in Crowler.js should work: ", function() {
     })
 
     it('should get an error if address is not a string or is missing', function(done){
-      Crawler.getAllLinks({address:'sadasdas'}, ev,function(err, linkList){
+      var host = Crawler._getHost('sadasdas');
+      Crawler.getAllLinks({address:'sadasdas'},host, ev,function(err, linkList){
         expect(err).not.toBe(null);
-        expect(linkList).toBeUndefined();
+        expect(linkList.length).toBe(0);
         done();
       })
     })
-
-
-/*    it('should get a list of urls if the addres is sent as \'www.java.com\' ', function(done){
-      Crawler.getAllLinks('www.java.com', function(err, linkList){
-        expect(err).toBe(null);
-        expect(linkList).toBeDefined();
-        expect(linkList.length>0).toBeTruthy();
-        done();
-      })
-
-
-    })
-*/
-
-
-
-
-
-
-
 
   })
 

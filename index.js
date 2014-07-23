@@ -19,6 +19,11 @@ app.get('/crawl', function(req,res){
     res.send(200, bo1);
   })
 
+  bo1.ev.once('error', function(){
+    console.log('error');
+    res.send(400, bo1);
+  })
+
 
 // var o1 = new Obj("http://www.google.com/", 2);
 // console.log('o1: ',o1);
@@ -40,11 +45,12 @@ app.get('/crawl', function(req,res){
 
 
 
-var e = new eventEmitter;
-e.on('addlink', function(err, link){
-	//elemArray.push(link);
-	console.log('Link:', link);
-})
+// var e = new eventEmitter;
+// e.on('addlink', function(err, link){
+// 	//elemArray.push(link);
+// 	console.log('Link:', link);
+// });
+
 
 
 
