@@ -12,10 +12,11 @@ app.get('/', function(req,res){
 
 app.get('/crawl', function(req,res){
 	res.set('Content-Type','text/plain');
-	var o1 = new Obj(req.query.address, req.query.itterations);
+	var bo1 = new BigObj(req.query.address, req.query.itterations);
 
-  Crawler.e.on('done', function(){
-    res.send(200, o1);
+  bo1.ev.once('done', function(){
+    console.log('DONE');
+    res.send(200, bo1);
   })
 
 
