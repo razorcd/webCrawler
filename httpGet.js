@@ -14,12 +14,24 @@ module.exports = function httpGet(address,cb, _redirect, _itterations){
     return;
   }
 
+  var headers = {
+      //"host": "localhost:9000",
+      //"connection": "keep-alive",
+      "cache-control": "max-age=100",
+      "accept": "text/html",
+      //"user-agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36",
+      //"accept-encoding": "gzip,deflate,sdch",
+      //"accept-language": "en-US,en;q=0.8",
+      //"cookie": "connect.sid=s%3AS4wosJfnpCbhVDQg93SAJma_GFW2yNX6.eRmxSv63uew%2FCgnU4qMPShHAxQunqJBj6QbyylDzP%2BA"
+  }
+
+
   var address = url.parse(address);
   var options={
     method: 'GET',
     host: address.host,
     path:address.path,
-    headers: { Accept: 'text/*' }  
+    headers: headers
   }
 
    http.get(options, function(res){

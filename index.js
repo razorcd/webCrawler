@@ -12,7 +12,7 @@ app.get('/', function(req,res){
 
 app.get('/crawl', function(req,res){
 	res.set('Content-Type','text/plain');
-	var bo1 = new BigObj(req.query.address, req.query.itterations);
+	var bo1 = new Master(req.query.address, req.query.itterations);
 
   bo1.ev.once('done', function(){
     console.log('DONE');

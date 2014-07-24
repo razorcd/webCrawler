@@ -6,43 +6,69 @@ var httpGet = require('./httpGet.js');
 console.log('-----------------------');
 
 
-Obj = function(address,oldhost, itterations, ev){
+Slave = function(address,host, itterations, ev){
+  //TODO: validate address and host here
   //console.log("-------------Event: ",ev);
-  this.host = oldhost;
+  this.host = host;
   this.address=address;
+  this.httpGetNotResponsive = false;
   this.itterations=itterations;
   this.links = [];
+  //redirect = false;
 
   var _self = this;
+
+  //start crawling
   (function(addr,host,itt,ev){
     console.log("Itt: ", itt, "   Address: ", addr);
-
     if (itt>0){
-      getAllLinks(addr,host,ev,function(err, linksList){
-        linksList = linksList || [];
-        for(var i=0;i<linksList.length;i++){
-          var tempHost = _getHost(addr) || host;
-           _self.links.push(new Obj(linksList[i], tempHost,itt-1,ev));
-           //console.log('Self: ',_self);
-         }
-           //console.log(linksList);
+      if (!ev.done) ev.done=0;
+      ev.done++;
+      getAllLinks(addr,host,function(err, linksList){        
+        if(err) { 
+          console.log('object error');
+          _self.httpGetNotResponsive = true;
+        } else {
+          for(var i=0;i<linksList.length;i++){
+            var tempHost = _getHost(addr) || host;
+             _self.links.push(new Slave(linksList[i], tempHost,itt-1,ev));
+          }
+        }
+        ev.done--;
+        if (ev.done === 0 ) process.nextTick(function(){ ev.emit('done') });; //emit 'done'.    //TOGO(ad 5 lines below:  if (ev.done === 0 ) setTimeout( function(){ if (ev.done === 0 ) ev.emit('done');}, 500); //to check if no more requests are waiting
       })
     } 
   }(this.address,this.host,this.itterations,ev));
+
+
+
+
 }
 
 
-exports.BigObj = BigObj = function(address, itterations){
+
+
+
+exports.Master = Master = function(address, itterations){
   this.ev = new Event;
   this.ev.done = 0;
   this.mainAddress = address;
-  this.data = new Obj(address, _getHost(address),itterations, this.ev);
+
+  //next tick
+  this.data = new Slave(address, _getHost(address),itterations, this.ev);
 }
+
+
+
+
+
+
+
 
 
 function _parseAddress(address, host){
   if (address[0] === '/') address = host+address;
-  if (address.slice(0,4) === 'www.') address = 'http://'+address;
+  if (address.slice(0,4) === 'www.') address = 'http://'+address;   //TODO: if (address.slice(0,t) !== 'http://') address = 'http://'+address;
   return address;
 }
 
@@ -57,7 +83,7 @@ function _getHost(address){
 //gets the body from web address
 function _getPage(address,cb){
   var result = null;
-  var address = address || this.address;
+  var address = address;
   // request.get(address, function(err, response, body){
   //   if (err) { console.error("######## Error request on address: ", address); cb(err); return err; }
   //   cb(null, body);
@@ -65,6 +91,7 @@ function _getPage(address,cb){
 
   httpGet(address, function(err, data, redirect){
     if (err) { console.error("######## Error request on address: ", address); cb(err); return err; }
+    //console.log("!!!!!!!!!!")
     cb(null, data);
   });
   
@@ -158,10 +185,10 @@ function _validateUrl(address){
   return reg.test(address);
 }
 
-//getAllLinks(address, function(err,object){} )
-function getAllLinks(address,host,ev,cb){
+//getAllLinks(address, function(err,Slaveect){} )
+function getAllLinks(address,host,cb1){
   if (!address || typeof address !== 'string') {
-    cb('Error: addres is not a string',[]);
+    cb1('Error: addres is not a string');
     return;
   }
 
@@ -173,21 +200,21 @@ function getAllLinks(address,host,ev,cb){
 
   address = _parseAddress(address, host);
 
-  if (!ev.done) ev.done=0;
-  ev.done++;
+  
 
   _getPage(address,function(err,body){
     _getElements(err,body, function(err, elemArray){
       _getLinks(err,elemArray, function(err, linkList){
+
         if (err) {
-          cb(err);
+          //ev.done --;
+          cb1(err);
           return;
         }
-        //console.log('Got a linkList');
-        cb(null, linkList);
 
-        ev.done--;
-        if (ev.done === 0 ) ev.emit('done'); //emit 'done'.
+        //console.log('Got a linkList');
+        cb1(null, linkList);
+        //ev.done--;
       })
     })
   })
@@ -209,5 +236,5 @@ if (process.ENV === 'test') {
   exports.getAllLinks = getAllLinks;
   exports._parseAddress = _parseAddress;
   exports._getHost = _getHost;
-  exports.Obj = Obj;
+  exports.Slave = Slave;
 }
