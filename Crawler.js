@@ -6,56 +6,94 @@ var httpGet = require('./httpGet.js');
 console.log('-----------------------');
 
 
-Slave = function(address,host, itterations, ev){
-  //TODO: validate address and host here
-  //console.log("-------------Event: ",ev);
-  this.host = host;
-  this.address=address;
-  this.httpGetNotResponsive = false;
-  this.itterations=itterations;
-  this.links = [];
-  //redirect = false;
 
+
+//creating the master crawler object
+exports.Master = Master = function(address, itterations, internal){
   var _self = this;
 
-  //start crawling
-  (function(addr,host,itt,ev){
-    console.log("Itt: ", itt, "   Address: ", addr);
-    if (itt>0){
-      if (!ev.done) ev.done=0;
-      ev.done++;
-      getAllLinks(addr,host,function(err, linksList){        
-        if(err) { 
-          console.log('object error');
-          _self.httpGetNotResponsive = true;
-        } else {
-          for(var i=0;i<linksList.length;i++){
-            var tempHost = _getHost(addr) || host;
-             _self.links.push(new Slave(linksList[i], tempHost,itt-1,ev));
-          }
-        }
-        ev.done--;
-        if (ev.done === 0 ) process.nextTick(function(){ ev.emit('done') });; //emit 'done'.    //TOGO(ad 5 lines below:  if (ev.done === 0 ) setTimeout( function(){ if (ev.done === 0 ) ev.emit('done');}, 500); //to check if no more requests are waiting
-      })
-    } 
-  }(this.address,this.host,this.itterations,ev));
+  this.ev = new Event;        //event that will emit done when Slave crawler finished all itterations or 'error' on error
 
+  //delete the ev from this object when done craling
+  this.ev.on('done', function(){
+    delete _self.ev;
+  })
 
+  //validating address first
+  if ( (address===undefined) || (typeof address !== 'string') || !(_validateUrl(address)) ) {
+    process.nextTick(function(){
+      _self.ev.emit('error', 'Address not valid');
+    })
+    return;
+  }
 
+  this.ev.done = 0;           //will hold the number of http requests currently in process once crawling stats
+  this.mainAddress = address; //main addres. TODO: validate first
+  this.itterations = itterations;
+  this.internal = (internal ? true : false);
 
+  //..next tick
+  this.data = new Slave(address, _getHost(address),itterations, this.internal,this.ev);   //starting the crawler itterations
 }
 
 
 
 
 
-exports.Master = Master = function(address, itterations){
-  this.ev = new Event;
-  this.ev.done = 0;
-  this.mainAddress = address;
 
-  //next tick
-  this.data = new Slave(address, _getHost(address),itterations, this.ev);
+//creating the slave crawler object that will hold all the links in a tree
+Slave = function(address,host, itterations, internal, ev){
+  //TODO: validate address and host here
+  //console.log("-------------Event: ",ev);
+  var _self = this;
+  this.host = host;
+  this.address=address;
+  this.validAddress = _validateUrl(_parseAddress(address, host));
+  this.httpGetNotResponsive = false;     
+  this.itterations=itterations;
+  
+  this.isInternal = (function(){     //if link is on same host as host
+    if (!_self.validAddress) return false;
+    if (_self.address[0] === '/') return true;
+    var add = _getHost(_self.address);
+    add = (add.split('://')[0] === 'http' || add.split('://')[0] === 'https') ? add.split('://')[1] : add;
+    var hos = (_self.host.split('://')[0] === 'http' || _self.host.split('://')[0] === 'https') ? _self.host.split('://')[1] : _self.host;
+    return add === hos;
+  })();
+
+
+  this.links = [];
+  //redirect = false;
+
+  
+
+  //start crawling function
+  if (!(internal && !_self.isInternal)) {
+    (function(addr,host,itt,internal,ev){
+      console.log("Itt: ", itt, "   Address: ", addr, "    Host: ", host);
+      if (itt>0 && _self.validAddress){
+        if (!ev.done) ev.done=0;                          //(re)initiliasing curent itterations under execution  counter
+        ev.done++;                                        //itterations in process counter +1
+        getAllLinks(addr,host,function(err, linksList){        
+          if(err) {   //getAllLinks returned err
+            console.log('object error');
+            _self.httpGetNotResponsive = true;
+          } else {    //getAllLinks returned a list with links
+            for(var i=0;i<linksList.length;i++){  //doing another itteration for each link in the list
+              var tempHost = _getHost(addr) || host;
+               _self.links.push(new Slave(linksList[i], tempHost, itt-1, internal, ev));
+            }
+          }
+          ev.done--;
+          if (ev.done === 0 ) process.nextTick(function(){ ev.emit('done') });; //emit 'done'.    //TOGO(ad 5 lines below:  if (ev.done === 0 ) setTimeout( function(){ if (ev.done === 0 ) ev.emit('done');}, 500); //to check if no more requests are waiting / delaying
+        })
+      } 
+    }(this.address,this.host,this.itterations, internal, ev));
+  }
+
+
+
+
 }
 
 
@@ -94,10 +132,6 @@ function _getPage(address,cb){
     //console.log("!!!!!!!!!!")
     cb(null, data);
   });
-  
-
-
-
  
 }
 
@@ -181,6 +215,7 @@ function _getLinks(err, elemArray, cb){
 }
 
 function _validateUrl(address){
+  // TODO: still needs work
   var reg = new RegExp('((((https?)|(ftp)):\/\/)?((www\.)?([a-z0-9][a-z0-9:@]+)))([a-z0-9-_\/]+[\.])+([a-z0-9]{2,})');
   return reg.test(address);
 }

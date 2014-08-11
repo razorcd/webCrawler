@@ -4,6 +4,7 @@ var Crawler = require('./Crawler.js');
 
 var app = express();
 app.use(express.logger('dev'));
+app.use(express.static(__dirname + "/public"));
 
 /*** ROUTES ***/
 app.get('/', function(req,res){
@@ -11,18 +12,18 @@ app.get('/', function(req,res){
 });
 
 app.get('/crawl', function(req,res){
-	res.set('Content-Type','text/plain');
-	var bo1 = new Master(req.query.address, req.query.itterations);
+	res.set('Content-Type','application/json');
+	var bo1 = new Master(req.query.address, req.query.itterations, req.query.internal);
 
   bo1.ev.once('done', function(){
     console.log('DONE');
     res.send(200, bo1);
-  })
+  });
 
-  bo1.ev.once('error', function(){
-    console.log('error');
-    res.send(400, bo1);
-  })
+  bo1.ev.once('error', function(err){
+    console.log('Error');
+    res.send(400, {error:err});
+  });
 
 
 // var o1 = new Obj("http://www.google.com/", 2);
@@ -32,7 +33,6 @@ app.get('/crawl', function(req,res){
 // setTimeout(function(){
 //   console.log('o1: ', o1);
 // }, 4000);
-
 
 
 

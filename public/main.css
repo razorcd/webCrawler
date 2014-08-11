@@ -1,0 +1,43 @@
+.main {
+  font-family : "Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif; 
+  margin-top: 150px;
+}
+
+.logo {
+  margin:20px auto;
+  background-color: blue;
+  width:300px;
+  height:100px;
+}
+
+.form {
+  text-align: center;
+}
+
+.form #address {
+  display: block;
+  min-width: 500px;
+  width: 50%;
+  margin: 10px auto 5px auto;
+  padding: 3px 8px;
+}
+
+.form #crawl {
+  display: block;
+  margin: 20px auto;
+  width: 100px;
+}
+
+.form #itterations {
+  width: 35px;
+  margin-right: 50px;
+}
+
+.form #internal {
+  display: inline-block;
+}
+
+.form #internal input{
+  float:left;
+  margin-top: 5px;
+}

@@ -1,16 +1,25 @@
 <html>
+  <link rel="stylesheet" type="text/css" href="main.css" />
 <head>
 	<title>Web Crawler</title>
 </head>
 <body>
+  <div class='main'>
+    <div class='logo'></div>
+  	<form class='form' method="get" action='crawl'>
+  		<input id='address' type='text' name='address' value='http://'>
 
-	<form method="get" action='crawl'>
-		<input type='text' name='address' value='http://'>
-		<label for 'itterations'>Itterations:</label>
-		<input name='itterations' value='1'>
-		<input type='Submit' value='Crawl'>
-	</form>
+  		<label for 'itterations'>Itterations:</label>
+  		<input id='itterations' name='itterations' value='1'>
 
+      <div id='internal'>
+        <input  type='checkbox' name='internal'>
+        <label for 'internal'> internal </label>
+      </div>
+
+  		<input id='crawl' type='Submit' value='Crawl'>
+  	</form>
+  </div>
 
 </body>
 </html>

@@ -6,10 +6,11 @@ var http = require('http');
 module.exports = function httpGet(address,cb, _redirect, _itterations){
   _itterations = _itterations-1 || 4; //max 3 redirects allowed
   if (_itterations === 1) {
-    cb("Error too many redirections.")
+    cb("Error too many redirections.");
     return;
   }
-  if(!_validateUrl(address)) {
+
+  if (!_validateUrl(address)) {
     cb("Error, addres not valid");
     return;
   }
@@ -18,12 +19,12 @@ module.exports = function httpGet(address,cb, _redirect, _itterations){
       //"host": "localhost:9000",
       //"connection": "keep-alive",
       "cache-control": "max-age=100",
-      "accept": "text/html",
+      "accept": "text/html"
       //"user-agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36",
       //"accept-encoding": "gzip,deflate,sdch",
       //"accept-language": "en-US,en;q=0.8",
       //"cookie": "connect.sid=s%3AS4wosJfnpCbhVDQg93SAJma_GFW2yNX6.eRmxSv63uew%2FCgnU4qMPShHAxQunqJBj6QbyylDzP%2BA"
-  }
+  };
 
 
   var address = url.parse(address);
