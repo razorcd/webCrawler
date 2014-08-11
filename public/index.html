@@ -5,9 +5,9 @@
 </head>
 <body>
   <div class='main'>
-    <div class='logo'></div>
+    <div class='logo'>Web Crawler</div>
   	<form class='form' method="get" action='crawl'>
-  		<input id='address' type='text' name='address' value='http://'>
+  		<input id='address' type='text' name='address' value="http://" autofocus placeholder="like: http://www.google.com">
 
   		<label for 'itterations'>Itterations:</label>
   		<input id='itterations' name='itterations' value='1'>
@@ -17,9 +17,19 @@
         <label for 'internal'> internal </label>
       </div>
 
+      <div id='selector'>
+        <label for 'format'>Format: </label>
+        <select name="format">
+          <option value='web'>Web</option>
+          <option value='json'>JSON</option>
+          <option value='xml'>XML</option>
+        </select>
+      </div>
+
+
   		<input id='crawl' type='Submit' value='Crawl'>
   	</form>
   </div>
-
+  <footer class='footer'>Web Crowler, Version: 0.2(alpha)</footer>
 </body>
 </html>

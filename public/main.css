@@ -1,43 +1,58 @@
 .main {
+  min-width: 550px;
   font-family : "Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif; 
   margin-top: 150px;
 }
 
 .logo {
   margin:20px auto;
-  background-color: blue;
-  width:300px;
+  width:500px;
   height:100px;
+  font-size: 60pt;
+  text-align: center;
 }
 
 .form {
   text-align: center;
 }
 
-.form #address {
-  display: block;
-  min-width: 500px;
-  width: 50%;
-  margin: 10px auto 5px auto;
-  padding: 3px 8px;
-}
+  .form #address {
+    display: block;
+    min-width: 500px;
+    width: 50%;
+    height:30px;
+    margin: 10px auto 5px auto;
+    padding: 3px 8px;
+  }
 
-.form #crawl {
-  display: block;
-  margin: 20px auto;
-  width: 100px;
-}
+  .form #crawl {
+    display: block;
+    margin: 20px auto;
+    width: 100px;
+    height:40px;
+  }
 
-.form #itterations {
-  width: 35px;
-  margin-right: 50px;
-}
+  .form #itterations {
+    width: 35px;
+    margin-right: 50px;
+  }
 
-.form #internal {
-  display: inline-block;
-}
+  .form #internal {
+    display: inline-block;
+  }
 
-.form #internal input{
-  float:left;
-  margin-top: 5px;
+  .form #internal input{
+    float:left;
+    margin-top: 5px;
+  }
+
+  .form #selector {
+    display: inline-block;
+    margin-left: 50px;
+  }
+
+.footer {
+  text-align: center;
+  color:grey;
+  font-size: 8pt;
 }
