@@ -66,12 +66,11 @@ Slave = function(address,host, itterations, internal, ev){
   //redirect = false;
 
   
-
   //start crawling function
-  if (!(internal && !_self.isInternal)) {
+  if (!(internal && !_self.isInternal)) {   //start crawling only if NOT (internal is checked and the address is not internal)
     (function(addr,host,itt,internal,ev){
       console.log("Itt: ", itt, "   Address: ", addr, "    Host: ", host);
-      if (itt>0 && _self.validAddress){
+      if (itt>0){
         if (!ev.done) ev.done=0;                          //(re)initiliasing curent itterations under execution  counter
         ev.done++;                                        //itterations in process counter +1
         getAllLinks(addr,host,function(err, linksList){        
@@ -87,12 +86,9 @@ Slave = function(address,host, itterations, internal, ev){
           ev.done--;
           if (ev.done === 0 ) process.nextTick(function(){ ev.emit('done') });; //emit 'done'.    //TOGO(ad 5 lines below:  if (ev.done === 0 ) setTimeout( function(){ if (ev.done === 0 ) ev.emit('done');}, 500); //to check if no more requests are waiting / delaying
         })
-      } 
+      } //else process.nextTick(function(){ ev.emit('done'); });
     }(this.address,this.host,this.itterations, internal, ev));
-  }
-
-
-
+  } //else process.nextTick(function(){ ev.emit('done'); });
 
 }
 
@@ -228,10 +224,10 @@ function getAllLinks(address,host,cb1){
   }
 
   //validate
-  // if (!_validateUrl(address)) {
-  //     cb('Error: addres is not valid');
-  //     return;
-  // }
+/*  if (!_validateUrl(address)) {
+      cb('Error: addres is not valid');
+      return;
+  }*/
 
   address = _parseAddress(address, host);
 

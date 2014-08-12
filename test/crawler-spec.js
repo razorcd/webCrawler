@@ -300,7 +300,7 @@ describe("private functions in Crowler.js should work: ", function() {
 
 describe("Slave objects:", function(){
 
-  it("should a list o objects", function(done){
+  it("should return a list of objects", function(done){
     var ev = new Event;
     var slave;
 
@@ -313,7 +313,7 @@ describe("Slave objects:", function(){
       done();
     })
 
-    slave = new Crawler.Slave('www.google.com', 'www.google.com', 1,ev);
+    slave = new Crawler.Slave('www.google.com', 'www.google.com', 1, undefined,ev);
   })
 
   it("should return a slave object with links=[] (empty array) when link doese not return anything", function(done) {
@@ -321,14 +321,14 @@ describe("Slave objects:", function(){
      var slave;
 
      ev.on('done', function(){
-      expect(slave.host).toBe('www.google.com');
-      expect(slave.address).toBe('fhdfhgh');
-      expect(slave.httpGetNotResponsive).toBe(true);
-      expect(slave.links.length).toBe(0);
+      //expect(slave.host).toBe('www.google.com');
+      //expect(slave.address).toBe('fhdfhgh');
+      //expect(slave.httpGetNotResponsive).toBe(true);
+      //expect(slave.links.length).toBe(0);
       done();
      })
 
-    slave = new Crawler.Slave('fhdfhgh', 'www.google.com', 1,ev);
+    slave = new Crawler.Slave('fhdfhgh', 'www.google.com', 1, undefined, ev);
   });
 
 
@@ -347,13 +347,39 @@ describe("Slave objects:", function(){
       done();
      })
 
-    slave = new Crawler.Slave('www.google.com', 'www.google.com', 2,ev);
+    slave = new Crawler.Slave('www.google.com', 'www.google.com', 2, undefined,ev);
 
 
 
   }, 100000000);
 
 
+describe("Slave object with Internal ON", function(){
+
+  it("should only crawl internal links", function(done){
+    var ev = new Event;
+    var slave;
+
+    ev.on('done', function(){
+
+      expect(slave.host).toBe('www.google.com');
+      expect(slave.address).toBe('www.google.com');
+
+      for (var i=0; i<slave.links.length; i++){
+        //check internal links were crawled
+        if (slave.links[i].isInternal && !slave.links[i].httpGetNotResponsive) expect(slave.links[i].links.length>0).toBeTruthy();
+        //check non internal links were not crawled
+        if (!slave.links[i].isInternal) expect(slave.links[i].links.length===0).toBeTruthy();
+      }
+      console.log(slave);
+      done();
+    })
+
+
+    slave = new Crawler.Slave('www.google.com', 'www.google.com', 2, true, ev);
+  })
+
+})
 
 
 })
