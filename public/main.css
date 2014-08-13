@@ -112,7 +112,6 @@ li:nth-child(odd)  {  background-color: #eee; }
 .linkElement {
   display: inline-block;
   width: 70%;
-  background-color: pink;
 }
 
 .errorMessage {
