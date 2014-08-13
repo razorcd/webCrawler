@@ -3,4 +3,4 @@
 
 Made with node.js and express
 
-Live:  [http://webcrawler.herokuapp.com/]http://webcrawler.herokuapp.com/
+Live:  http://webcrawler.herokuapp.com/
