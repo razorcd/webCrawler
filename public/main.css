@@ -1,6 +1,6 @@
 .main {
   min-width: 550px;
-  font-family : "Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif; 
+  font-family : "Arial", "Helvetica Neue Light", "Lucida Grande", "Calibri" , sans-serif; 
   margin-top: 150px;
 }
 
@@ -63,15 +63,69 @@
 /*tree*/
 
 #tree {
-  background-color: yellow;
+  width:800px;
+  margin: 0 auto;
 }
+
+
 
 #tree .treeLine {
   border: 1px solid black;
   margin-left: 10px;
   padding:2px;
 }
+ul {
+  padding: 0;
+  margin:0 0 0 20px;
+}
+
+li {
+  padding: 5px;
+  clear:both;
+  font-size: 10pt;
+}
+li:nth-child(even) {  background-color: #ccc; }
+li:nth-child(odd)  {  background-color: #eee; }
 
 .bold{
   font-weight: bold;
+}
+
+.crawlerElement {
+  margin: 10px 0;
+}
+.crawlerElement:nth-child(even) {  background-color: #ccc; }
+.crawlerElement:nth-child(odd)  {  background-color: #eee; }
+
+.addressTitle {
+  border-left: 2px solid black;
+  padding-left: 5px;
+  color:#156199;
+  font-weight: bold;
+}
+
+.addressTitle:hover {
+  cursor: default;
+  color: blue;
+}
+
+.linkElement {
+  display: inline-block;
+  width: 70%;
+  background-color: pink;
+}
+
+.errorMessage {
+  color:red;
+  font-size: 10pt;
+  float:right;
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.crawlButton {
+  float:right;
+  display: inline-block;
+  height: 20px;
+  clear:boh;
 }

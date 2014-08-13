@@ -58,7 +58,7 @@ describe("private functions in Crowler.js should work: ", function() {
       })  
 
       start++;
-      Crawler._getPage('http://www.facebook.com', function(err, body){
+      Crawler._getPage('http://www.reddit.com', function(err, body){
         expect(body).toBeDefined();
         expect(typeof body).toBe('string');
         start--;
@@ -304,7 +304,7 @@ describe("Slave objects:", function(){
     var ev = new Event;
     var slave;
 
-    ev.on('done', function(){
+    ev.on('finished', function(){
       expect(slave.host).toBeDefined();
       expect(slave.host).toBe('www.google.com');
       expect(slave.itterations).toBe(1);
@@ -320,7 +320,7 @@ describe("Slave objects:", function(){
      var ev = new Event;
      var slave;
 
-     ev.on('done', function(){
+     ev.on('finished', function(){
       //expect(slave.host).toBe('www.google.com');
       //expect(slave.address).toBe('fhdfhgh');
       //expect(slave.httpGetNotResponsive).toBe(true);
@@ -336,7 +336,7 @@ describe("Slave objects:", function(){
          var ev = new Event;
      var slave;
 
-     ev.on('done', function(){
+     ev.on('finished', function(){
       console.log(slave);
       expect(slave.host).toBe('www.google.com');
       expect(slave.address).toBe('www.google.com');
@@ -360,7 +360,7 @@ describe("Slave object with Internal ON", function(){
     var ev = new Event;
     var slave;
 
-    ev.on('done', function(){
+    ev.on('finished', function(){
 
       expect(slave.host).toBe('www.google.com');
       expect(slave.address).toBe('www.google.com');

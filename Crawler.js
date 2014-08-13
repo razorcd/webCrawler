@@ -15,7 +15,10 @@ exports.Master = Master = function(address, itterations, internal){
   this.ev = new Event;        //event that will emit done when Slave crawler finished all itterations or 'error' on error
 
   //delete the ev from this object when done craling
-  this.ev.on('done', function(){
+  //on finished check result first
+  this.ev.on('finished', function(){
+    if (_self.data.links.length !==0) _self.ev.emit('done')
+    else _self.ev.emit('error', 'Cannot crawl address');
     delete _self.ev;
   })
 
@@ -84,7 +87,8 @@ Slave = function(address,host, itterations, internal, ev){
             }
           }
           ev.done--;
-          if (ev.done === 0 ) process.nextTick(function(){ ev.emit('done') });; //emit 'done'.    //TOGO(ad 5 lines below:  if (ev.done === 0 ) setTimeout( function(){ if (ev.done === 0 ) ev.emit('done');}, 500); //to check if no more requests are waiting / delaying
+          //if finished:
+          if (ev.done === 0 ) process.nextTick(function(){ ev.emit('finished') }); //emit 'done'.    //TOGO(ad 5 lines below:  if (ev.done === 0 ) setTimeout( function(){ if (ev.done === 0 ) ev.emit('done');}, 500); //to check if no more requests are waiting / delaying
         })
       } //else process.nextTick(function(){ ev.emit('done'); });
     }(this.address,this.host,this.itterations, internal, ev));
