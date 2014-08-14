@@ -1,4 +1,4 @@
-var request = require('request');
+//var request = require('request');
 var Event = require('events').EventEmitter;
 var http = require('http');
 var url = require('url');
@@ -137,7 +137,7 @@ function _getPage(address,cb){
   //   if (err) { console.error("######## Error request on address: ", address); cb(err); return err; }
   //   cb(null, body);
   // });
-
+  //TODO: add timeout in the httpGet module
   httpGet(address, function(err, data, redirect){
     if (err) { console.error("######## Error request on address: ", address); cb(err); return err; }
     //console.log("!!!!!!!!!!")

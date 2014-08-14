@@ -1,6 +1,6 @@
 {
   "name": "WebCrawler",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "web crawler",
   "main": "index.js",
   "scripts": {
@@ -13,8 +13,7 @@
   "author": "Razor",
   "license": "ISC",
   "dependencies": {
-    "express": "^3.14.0",
-    "request": "^2.40.0"
+    "express": "^3.14.0"
   },
   "repository": {
     "type": "git",
