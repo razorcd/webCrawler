@@ -1,4 +1,5 @@
 <html>
+  <meta charset="utf-8"> 
   <link rel="stylesheet" type="text/css" href="main.css" />
   <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
   <script type="text/javascript" src="client.js"></script>
@@ -16,15 +17,15 @@
 
       <div id='internal'>
         <input  type='checkbox' name='internal'>
-        <label for 'internal'> internal </label>
+        <label for 'internal'> internal only </label>
       </div>
 
       <div id='selector'>
         <label for 'format'>Format: </label>
-        <select name="format">
+        <select name="format" id="format">
           <option value='web'>Web</option>
           <option value='json'>JSON</option>
-          <option value='xml'>XML</option>
+          <!-- <option value='xml'>XML</option> -->
         </select>
       </div>
 
@@ -40,6 +41,6 @@
 
 
 
-  <footer class='footer'>Web Crowler, Version: 0.4(alpha)</footer>
+  <footer class='footer'>Web Crowler, Version: 0.6(alpha)</footer>
 </body>
 </html>

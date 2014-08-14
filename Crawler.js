@@ -9,7 +9,7 @@ console.log('-----------------------');
 
 
 //creating the master crawler object
-exports.Master = Master = function(address, itterations, internal){
+exports.Master = Master = function(address, host, itterations, internal){
   var _self = this;
 
   this.ev = new Event;        //event that will emit done when Slave crawler finished all itterations or 'error' on error
@@ -23,20 +23,31 @@ exports.Master = Master = function(address, itterations, internal){
   })
 
   //validating address first
-  if ( (address===undefined) || (typeof address !== 'string') || !(_validateUrl(address)) ) {
+  if ( (address===undefined) || (typeof address !== 'string') || !(address[0] === '/' || _validateUrl(address)) )  {
     process.nextTick(function(){
       _self.ev.emit('error', 'Address not valid');
     })
     return;
   }
 
+  //validating host first if it exists
+  if (host !==undefined) {
+    if ( (typeof host !== 'string') || !(_validateUrl(host)) ) {
+      process.nextTick(function(){
+        _self.ev.emit('error', 'Host not valid');
+      })
+      return;
+    }
+  }
+
   this.ev.done = 0;           //will hold the number of http requests currently in process once crawling stats
-  this.mainAddress = address; //main addres. TODO: validate first
+  this.mainAddress = address; //main addres.
+  this.mainHost = host || address;
   this.itterations = itterations;
   this.internal = (internal ? true : false);
 
   //..next tick
-  this.data = new Slave(address, _getHost(address),itterations, this.internal,this.ev);   //starting the crawler itterations
+  this.data = new Slave(address, this.mainHost || _getHost(address),itterations, this.internal,this.ev);   //starting the crawler itterations
 }
 
 

@@ -12,8 +12,9 @@ app.get('/', function(req,res){
 });
 
 app.get('/crawl', function(req,res){
+  console.log(req.query);
 	res.set('Content-Type','application/json');
-	var bo1 = new Master(req.query.address, req.query.itterations, req.query.internal);
+	var bo1 = new Master(req.query.address, req.query.hostaddress || undefined, req.query.itterations, req.query.internal);
 
   bo1.ev.once('done', function(){
     console.log('DONE');
@@ -21,7 +22,7 @@ app.get('/crawl', function(req,res){
   });
 
   bo1.ev.once('error', function(err){
-    console.log('Error');
+    console.log('Error:', err);
     res.send(400, {error:err});
   });
 
