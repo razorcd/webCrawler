@@ -204,12 +204,12 @@ describe("private functions in Crowler.js should work: ", function() {
         expect(elemArray).toBeDefined();
 
         expect(linkList[0]).toBe('http://www.razor3ds.com');
-        expect(linkList[4]).toBe('#');
-        expect(linkList[6]).toBe('x');
-        expect(linkList[7]).toBe('xxx>x');
-        expect(linkList[9]).toBe('xx"xxx"x>');
+        expect(linkList[1]).toBe('www.razor3ds.com');
+        expect(linkList[2]).toBe('razor3ds.com');
+        expect(linkList[3]).toBe('/internal');
+        expect(linkList[4]).toBe('http://www.razor3ds.com');
 
-        expect(linkList.length).toBe(10);
+        expect(linkList.length).toBe(5);
       });
     })
 
@@ -367,7 +367,7 @@ describe("Slave object with Internal ON", function(){
 
       for (var i=0; i<slave.links.length; i++){
         //check internal links were crawled
-        if (slave.links[i].isInternal && !slave.links[i].httpGetNotResponsive) expect(slave.links[i].links.length>0).toBeTruthy();
+        if (slave.links[i].isInternal && !slave.links[i].httpGetNotResponsive) expect(slave.links[i].parsed).toBeTruthy();
         //check non internal links were not crawled
         if (!slave.links[i].isInternal) expect(slave.links[i].links.length===0).toBeTruthy();
       }

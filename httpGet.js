@@ -1,29 +1,64 @@
 
 var url = require('url');
 var http = require('http');
+var config = require('./config.js');
 
 //httpGet(address, function(err, data, redirect){..})
-module.exports = function httpGet(address,cb, _redirect, _itterations){
-  _itterations = _itterations-1 || 4; //max 3 redirects allowed
+module.exports = function httpGet(address,cb, _redirect, _itterations, _domain, _initialAddress, _cookie){
+  _initialAddress = _initialAddress || address;  //saving the initial address in this variable and keeping it for all redirect itterations
+  _itterations = _itterations-1 || 6; //max 3 redirects allowed
+  var currentHost = _getHost(address);  //the host of the address for current itteration
   if (_itterations === 1) {
-    cb("Error too many redirections.");
-    return;
+
+    //request itterated 3 times without domain and failed. Now lets try with the domain = " ".
+    if (_domain === undefined) {
+      console.log('**********Trying again with hreder.domain=ip');
+      console.log('Initial Address: ', _initialAddress);
+      _itterations = 6;
+      //_domain = _getHost(address);
+      
+      _domain = " ";//config.domain;
+      //_domain = "www.oracle.com";
+      console.log ("         _domain: ", _domain);
+      //_initialAddress = "/html/privacy.html"
+      httpGet(_initialAddress, cb, _redirect, _itterations, _domain, _initialAddress, _cookie);
+      return;
+    } else {
+      //request itterated 3 times with domain===" " and failed. Now lets try with the domain = my host.
+      if (_domain === " ") {
+        console.log('**********Trying again with hreder.domain=ip');
+        console.log('Initial Address: ', _initialAddress);
+        _itterations = 6;
+        //_domain = _getHost(address);
+        
+        _domain = config.domain;
+        //_domain = "www.oracle.com";
+        console.log ("         _domain: ", _domain);
+        //_initialAddress = "/html/privacy.html"
+        httpGet(_initialAddress, cb, _redirect, _itterations, _domain, _initialAddress, _cookie);
+        return;
+      }
+
+      cb("Error too many redirections.");
+      return;
+    }
   }
 
-  if (!_validateUrl(address)) {
+  if (!_validateUrl(address, true)) {
     cb("Error, addres not valid");
     return;
   }
 
+  //if (address[0] !== '/') _domain = _getHost(address) || "";   //don't change the host if the address is internal
   var headers = {
-      //"host": "localhost:9000",
+      "host": _domain || "", //_domain || "",
       //"connection": "keep-alive",
-      "cache-control": "max-age=100",
-      "accept": "text/html"
-      //"user-agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36",
+      //"cache-control": "max-age=100",
+      "accept": "text/html",
+      "user-agent": "",//"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36",
       //"accept-encoding": "gzip,deflate,sdch",
-      //"accept-language": "en-US,en;q=0.8",
-      //"cookie": "connect.sid=s%3AS4wosJfnpCbhVDQg93SAJma_GFW2yNX6.eRmxSv63uew%2FCgnU4qMPShHAxQunqJBj6QbyylDzP%2BA"
+      //"accept-language": "en-US,en;q=0.8"
+      "cookie": _cookie || ""
   };
 
 
@@ -36,6 +71,12 @@ module.exports = function httpGet(address,cb, _redirect, _itterations){
   }
 
    http.get(options, function(res){
+    console.log(res.headers);
+    console.log(res.statusCode);
+    console.log("Cookie: ", _cookie);
+    //console.log('domain: ', config.domain);
+    console.log('_initialAddress: ', _initialAddress);
+
     var data='';
     var ct = res.headers['content-type'] || 'text/*';
 
@@ -49,20 +90,19 @@ module.exports = function httpGet(address,cb, _redirect, _itterations){
       res.on('end', function(){
         //console.log("Addr: ", address.href);
         console.log("Type: ", typeof data);
-        //console.log(data);
+        console.log('Cookie: ', _cookie);
+        console.log("-------- DATA: --------\n", data);
         if (res.statusCode >300 && res.statusCode <400) {
-          console.log("Redirecting to: ",res.headers.location);
           _redirect = res.headers.location;
-          httpGet(res.headers.location, cb, _redirect, _itterations);
+          console.log("Redirecting to: ",_redirect);
+          _cookie = res.headers['set-cookie'];
+          var newAddress = res.headers.location;
+          if (newAddress[0] === '/' || newAddress[0] === '?') newAddress = currentHost + newAddress;
+          httpGet(newAddress, cb, _redirect, _itterations, _domain, _initialAddress, _cookie);
         } else  {
          cb(null, data, _redirect)
         }
       })
-
-      // res.on('error', function(err){
-      //   console.error("######## Error request on address: ", address);
-      //   cb(err);
-      // })
 
     } else {
       console.log('Empty: content-type is not text/*');
@@ -77,7 +117,20 @@ module.exports = function httpGet(address,cb, _redirect, _itterations){
 
 
 
-function _validateUrl(address){
+function _validateUrl(address, internalAccepted){
+  // TODO: still needs work
+  //internal === true mean it accepts internal links (like: '/images')
+  if (internalAccepted) {  
+    if (address[0] === '/') return true;
+  }
   var reg = new RegExp('((((https?)|(ftp)):\/\/)?((www\.)?([a-z0-9][a-z0-9:@]+)))([a-z0-9-_\/]+[\.])+([a-z0-9]{2,})');
   return reg.test(address);
+}
+
+
+function _getHost(address){
+  var reg = new RegExp('((((https?)|(ftp)):\/\/)?((www\.)?([a-z0-9][a-z0-9:@]+)))([a-z0-9-_\/]+[\.])+([a-z0-9]{2,})');
+  var newHost = reg.exec(address);
+  if (newHost && newHost instanceof Array && newHost[0]!=='/') return newHost[0];
+  else return '';
 }

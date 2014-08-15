@@ -18,12 +18,12 @@ exports.Master = Master = function(address, host, itterations, internal){
   //on finished check result first
   this.ev.on('finished', function(){
     if (_self.data.links.length !==0) _self.ev.emit('done')
-    else _self.ev.emit('error', 'Cannot crawl address');
+    else _self.ev.emit('error', 'No more links'/*'Cannot crawl address'*/);
     delete _self.ev;
   })
 
   //validating address first
-  if ( (address===undefined) || (typeof address !== 'string') || !(address[0] === '/' || _validateUrl(address)) )  {
+  if ( (address===undefined) || (typeof address !== 'string') || !(address[0] === '/' || address[0] === '?' || _validateUrl(address)) )  {
     process.nextTick(function(){
       _self.ev.emit('error', 'Address not valid');
     })
@@ -63,7 +63,8 @@ Slave = function(address,host, itterations, internal, ev){
   this.host = host;
   this.address=address;
   this.validAddress = _validateUrl(_parseAddress(address, host));
-  this.httpGetNotResponsive = false;     
+  this.httpGetNotResponsive = false;      //if current link was not responsive
+  this.parsed = false;                    //if current link was parsed
   this.itterations=itterations;
   
   this.isInternal = (function(){     //if link is on same host as host
@@ -92,6 +93,7 @@ Slave = function(address,host, itterations, internal, ev){
             console.log('object error');
             _self.httpGetNotResponsive = true;
           } else {    //getAllLinks returned a list with links
+            _self.parsed = true;
             for(var i=0;i<linksList.length;i++){  //doing another itteration for each link in the list
               var tempHost = _getHost(addr) || host;
                _self.links.push(new Slave(linksList[i], tempHost, itt-1, internal, ev));
@@ -116,6 +118,7 @@ Slave = function(address,host, itterations, internal, ev){
 
 
 function _parseAddress(address, host){
+  if (address[0] === '?') address = '/' + address;
   if (address[0] === '/') address = host+address;
   if (address.slice(0,4) === 'www.') address = 'http://'+address;   //TODO: if (address.slice(0,t) !== 'http://') address = 'http://'+address;
   return address;
@@ -218,15 +221,19 @@ function _getLinks(err, elemArray, cb){
         console.log("ERRORRR:" ,e);
        }
        string = string.slice(0,l);
-       if (string !== '') linkList.push(string);
+       if (string !== '' && string[0] !== '#' && _validateUrl(string, true)) linkList.push(string);
     }
   }
   cb(null, linkList);
   return linkList;
 }
 
-function _validateUrl(address){
+function _validateUrl(address, internalAccepted){
   // TODO: still needs work
+  //internal === true mean it accepts internal links (like: '/images')
+  if (internalAccepted) {  
+    if (address[0] === '/') return true;
+  }
   var reg = new RegExp('((((https?)|(ftp)):\/\/)?((www\.)?([a-z0-9][a-z0-9:@]+)))([a-z0-9-_\/]+[\.])+([a-z0-9]{2,})');
   return reg.test(address);
 }

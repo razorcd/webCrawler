@@ -4,7 +4,7 @@ console.log('----------------------');
 //var address = 'http://www.razor3ds.com/ftp/GS/Designer_Batteries.zip';
 //var address = 'http://www.java.com';
 //var address = 'sdfgdfgsdfgdfg';
-var address = 'http://www.blogger.com?tab=wj';
+var address = 'http://search.bbc.co.uk/search';
 
 httpGet(address, function(err, data, redirect){
   if(err) {console.log(err); return;}
