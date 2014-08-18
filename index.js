@@ -1,6 +1,6 @@
 var eventEmitter = require('events').EventEmitter;
 var express = require('express');
-var Crawler = require('./Crawler.js');
+var crawl = require('./lib/crawl.js');
 
 var app = express();
 app.use(express.logger('dev'));
@@ -23,7 +23,7 @@ app.get('/crawl', function(req,res){
 
   bo1.ev.once('error', function(err){
     console.log('Error:', err);
-    res.send(400, {error:err});
+    res.send(200, {error:err});
   });
 
 

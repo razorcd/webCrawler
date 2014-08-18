@@ -1,5 +1,8 @@
 $(function(){
 var formData = {};
+var crawlerData = {};
+
+
 
 //CRAWL Button Event
 $('#crawl').on('click', function(e){
@@ -12,21 +15,22 @@ $('#crawl').on('click', function(e){
     format: $('#format').val(),
     id: Date.now()
   }
-  console.log(formData.format);
+  //console.log(formData.format);
   //vadiation:
   if (formData.itterations>3) { e.preventDefault(); return; }
   if (formData.format === 'json') return;
   
-  toggleCrawlBut(e.target); //disable crawl button
+  toggleCrawlBut(e.target,false); //disable crawl button
   e.preventDefault();
   
+  //start AJAX request
   getCrawlerData(formData, function(err, linkList){
     //if (err) {console.log(err.error); return; }
     var el = createCrawlerElement(linkList, formData.id);
     $('#tree').prepend(el);
 
     if (formData.itterations<=1) {
-      toggleCrawlBut(e.target); // enable Crawl button
+      toggleCrawlBut(e.target, true); // enable Crawl button
       return;  
     }
     //if itteration is bigger then 1 keep crawling:
@@ -39,7 +43,7 @@ $('#crawl').on('click', function(e){
       (function itterate(el){
         if (formData.itterations<=1) {
           //itterations ended
-          toggleCrawlBut(e.target);
+          toggleCrawlBut(e.target, false);
           return;  
         }
         formData.itterations--;
@@ -74,21 +78,27 @@ var getCrawlerData = function(formData, cb){
   var address = '/crawl?address=' + formData.address + '&hostaddress=' + (formData.hostaddress||'') 
       + '&itterations=' + 1 + '&internal=' + formData.internal + '&format=' + formData.web;
 
-  $.get(address, function(response){
+  $.ajax({
+    type: "GET",
+    url: address
+  })
+   .done(function(response, statusText, xhr){
+    console.log(statusText);
+    console.log(xhr.status);
     cb(null, response.data);
   })
-    .error(function(response){
-      cb(response.responseJSON);  
-    });
+   .error(function(response){
+       cb(response.responseJSON);  
+  });
 }
 
 //creates the html list of links
 var createCrawlerElement = function(linkList, id){
   var crawlButton = '<button class="crawlButton">Crawl</button>';               //Crawl button for links in lists
   var $el = $('<div class="crawlerElement"></div>');                            //div for titleAdress and list of links
-  if (id) $el.attr({'id':id});                                                  //adding an id to main element
-  var $address = $('<div class="addressTitle"> <span class="sign minus"></span>' + linkList.address + '</div>'); //title address from top of each list
-  $address.attr('data-host', linkList.host);
+  if (id) $el.attr({'id':id});                                                  //adding an id only to main element
+  var $address = $('<div class="addressTitle"> <span class="sign minus"></span>' + linkList.addressObj.parsedUrl + '</div>'); //title address from top of each list
+  $address.attr('data-host', linkList.addressObj.parsedHost);
 
   //showing/hiding list:
   $address.on('click', function(e){
@@ -105,7 +115,7 @@ var createCrawlerElement = function(linkList, id){
   var $ul = $('<ul></ul>');
   //adding each link into the list:
   for(var i=0; i<linkList.links.length; i++) {
-    $ul.append('<li>' + '<span class="linkElement">' + linkList.links[i].address + '</span>' 
+    $ul.append('<li>' + '<span class="linkElement">' + linkList.links[i].addressObj.parsedUrl + '</span>' 
       +  crawlButton + '<span class="errorMessage"></span>' + '<div style="clear:both"></div>' + '</li>');
   }
 
@@ -174,8 +184,8 @@ var createCrawlerElement = function(linkList, id){
 
 
 
-function toggleCrawlBut(but){
-  if (!$(but).attr('disabled')){
+function toggleCrawlBut(but, bool){
+  if (!bool){
     $(but).val('Crawling...');
     $(but).attr({'disabled':'true'});
   } else {
@@ -183,3 +193,5 @@ function toggleCrawlBut(but){
     $(but).removeAttr('disabled');
   }
 }
+
+

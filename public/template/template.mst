@@ -1,0 +1,36 @@
+<div class="treeLine">
+  <div class="addressHeader">
+    <span class="minusPlus minus"></span>
+    <div class="addressTitle"> {{addressObj.parsedUrl}} </div>
+  </div>
+  <ul>
+    {{#data.links}}
+    <li class="linkElement" data-parsedurl="{{addressObj.parsedUrl}}">
+      {{! Link element }}
+      <div class="mainLink">
+        <div class="smallLine"></div>
+        <div class="url">LINK: {{addressObj.originalUrl}}</div>
+        <button class="crawlButton"> Crawl </button>
+        <button class="detailsButton"> Details </button>
+      </div>
+      <div class="linkDetails">
+          Parsed Url: {{addressObj.parsedUrl}} <br />
+          Parent: {{addressObj.parsedParentHost}}<br />
+          Main host: {{addressObj.parsedMainHost}}<br />
+          Valid: {{addressObj.isValid}}<br />
+          Is internal: {{addressObj.urlIsInteral}}<br />
+          Same host as parent: {{addressObj.sameAsHost}}<br />
+          Same host as main address: {{addressObj.sameAsMainHost}}<br />
+          Parsed: {{parsed}}<br />
+          Http request responseive: {{httpGetResponsive}}<br />
+          Itteration: {{itterations}}<br />
+      </div>
+
+
+    </li>
+    {{/data.links}}
+  </ul>
+  <div style="clear:both;"></div>
+</div>
+
+

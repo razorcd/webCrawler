@@ -14,7 +14,7 @@ describe("crawl module", function() {
     })
 
   });
-/*
+
 
   it("should return valid data on correct arguments", function(done) {
     var wb2 = new crawl.Master('www.razor3ds.com', 'www.razor3ds.com', 1, false);
@@ -23,7 +23,7 @@ describe("crawl module", function() {
       expect(wb2.addressObj.isValid).toBe(true);
       expect(wb2.addressObj.parsedUrl).toBe('http://www.razor3ds.com');
       expect(wb2.addressObj.parsedMainHost).toBe('http://www.razor3ds.com');
-      expect(wb2.addressObj.parsedHost).toBe('http://www.razor3ds.com');
+      expect(wb2.addressObj.parsedParentHost).toBe('http://www.razor3ds.com');
       expect(wb2.ev).toBeUndefined();
       expect(wb2.itterations).toBe(1);
       expect(wb2.internalOnlyAccepted).toBe(false);
@@ -43,7 +43,7 @@ describe("crawl module", function() {
       expect(wb2.addressObj.isValid).toBe(true);
       expect(wb2.addressObj.parsedUrl).toBe('http://www.razor3ds.com');
       expect(wb2.addressObj.parsedMainHost).toBe('http://www.razor3ds.com');
-      expect(wb2.addressObj.parsedHost).toBe('http://www.razor3ds.com');
+      expect(wb2.addressObj.parsedParentHost).toBe('http://www.razor3ds.com');
       expect(wb2.ev).toBeUndefined();
       expect(wb2.itterations).toBe(2);
       expect(wb2.internalOnlyAccepted).toBe(false);
@@ -62,7 +62,7 @@ describe("crawl module", function() {
       done();
     });
   });
-*/
+
 
 
   it("should return valid data on correct arguments with itterations 2", function(done) {
@@ -72,7 +72,7 @@ describe("crawl module", function() {
       expect(wb2.addressObj.isValid).toBe(true);
       expect(wb2.addressObj.parsedUrl).toBe('http://www.razor3ds.com');
       expect(wb2.addressObj.parsedMainHost).toBe('http://www.razor3ds.com');
-      expect(wb2.addressObj.parsedHost).toBe('http://www.razor3ds.com');
+      expect(wb2.addressObj.parsedParentHost).toBe('http://www.razor3ds.com');
       //expect(wb2.ev).toBeUndefined();
       expect(wb2.itterations).toBe(2);
       expect(wb2.internalOnlyAccepted).toBe(true);
