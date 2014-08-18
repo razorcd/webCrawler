@@ -80,14 +80,14 @@ body {
 
 
 #tree .treeLine {
-  border: 1px solid black;
-  margin-left: 10px;
-  padding:2px;
+  /*border: 1px solid black;*/
 }
-#tree>.treeLine { margin-left:0;}  /* first element has not margin */
+.treeLine { 
+  margin-left:0;
+  }  /* first element has not margin */
 
 
-li .smallLine {
+.smallLine {
   margin-right: 2px;
   float:left;
   width:5px;
@@ -105,7 +105,7 @@ ul {
 
 
 li {
-  border-left: 1px solid black;
+  border-left: 1px solid #8C8C8C;
   padding: 0 0 10px 0;
   clear:both;
   font-size: 10pt;
@@ -116,8 +116,8 @@ li {
 li:nth-child(even) {  background-color: #ccc; }
 li:nth-child(odd)  {  background-color: #eee; }
 li:last-child { border: none;}
-li:last-child .smallLine {
-  border-left: 1px solid black;
+.last .smallLine {
+  border-left: 1px solid #8C8C8C;
 }
 
 .bold{
@@ -130,47 +130,55 @@ li:last-child .smallLine {
 .crawlerElement:nth-child(even) {  background-color: #ccc; }
 .crawlerElement:nth-child(odd)  {  background-color: #eee; }
 
+.addressHeader {
+  /*position: relative;*/
+  margin:0 0 0 0;
+}
+
 .minus, .plus{
-  position:relative;
-  left:0;
-  top:19px;
   float:left;
-  width:19px;
-  height:19px;
-  background-color: #BEBEBE;
+  position:relative;
+  left:3px;
+  top:0;
+  width:12px;
+  height:12px;
+  background-color: rgba(160,160,160,0.75);
   border: 1px solid #8C8C8C;
   color: #fff;
-  margin-top: 1px;
+  margin-top: 4px;
   margin-right: 5px;
   text-align: center;
   font-weight: bold;
 }
+.minus:after {  content: "-"; }
+.plus:after {  content: "+"; }
 
-
-
-.minus:after {
-  content: "-";
-}
-.plus:after {
-  content: "+";
-}
-
-.addressHeader {
+.minusPlus>.smallLine {
+  float:left;
+  position: absolute;
+  left:6px;
+  top:-6px;
+  border:0;
+  border-left: 1px solid #8C8C8C;
+  margin-right: 2px;
+  margin-top:18px;
+  width:5px;
+  height:5px;
 }
 
 .addressTitle {
-  border-left: 1px solid #8C8C8C ;
-  padding-left: 0px;
+  /*border-left: 1px solid #8C8C8C ;*/
+  padding-left: 2px;
   padding:0;
   margin:0;
-  margin-left: 10px;
-  padding-left:15px;
+  /*margin-left: 10px;*/
+  padding-left:0px;
   padding-top: 2px;
   /*padding-bottom: 5px;*/
   min-height: 20px;
   background-color: cyan;
   float:left;
-  width:95%;
+  width:97%;
   font-weight: bold;
 }
 
@@ -189,7 +197,7 @@ li:last-child .smallLine {
 }
 
 
-.mainLink .url{
+.mainLink>.url{
   background-color: red;
   float:left;
   width: 65%;

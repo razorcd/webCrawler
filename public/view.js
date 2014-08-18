@@ -50,7 +50,10 @@ function createHtmlElement(formData, cb){
       console.log(renderedTemplate);
       var $el = $(renderedTemplate);
       $el.find(".crawlButton").on("click", crawlButtonOnEvent);
-      cb(null, $el);
+      $el.find(".addressTitle").on("click", setToggleLine);
+      $el.find("li:last-child").addClass("last");
+      $li = $("<li></li>").append($el);
+      cb(null, $li);
     })
 
 
@@ -89,7 +92,7 @@ function createRenderedTemplate(data){
 function crawlButtonOnEvent(e){
   var $line = $(e.target).parent().parent();
   var link = $line.data('parsedurl');
-  
+
   var formData = {
     address: link,
     itterations: 1,
@@ -102,4 +105,15 @@ function crawlButtonOnEvent(e){
     if (err) alert(err);
     $line.replaceWith($htmlElement);  
   })
+}
+
+function setToggleLine(e){
+  e.stopPropagation();
+  var $treeLine = $(e.target).parent().parent();
+
+  $treeLine.children("ul").slideToggle('slow', function(){
+    $treeLine.find(".minusPlus>.smallLine").first().toggle();
+    $treeLine.find(".minusPlus").first().toggleClass("minus");
+    $treeLine.find(".minusPlus").first().toggleClass("plus");
+  });
 }

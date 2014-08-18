@@ -1,6 +1,10 @@
 <div class="treeLine">
   <div class="addressHeader">
-    <span class="minusPlus minus"></span>
+
+    <div class="minusPlus minus">
+      <div class="smallLine"></div>
+    </div>
+    
     <div class="addressTitle"> {{addressObj.parsedUrl}} </div>
   </div>
   <ul>
