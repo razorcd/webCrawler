@@ -10,8 +10,11 @@ var template;
 
 
 $(function(){
-
   $("#crawl").on("click", function(e){
+    if ($('#format').val() === 'json') {
+      return;
+    }
+
     var formData = {
       address: $('#address').val(),
       itterations: $('#itterations').val(),
@@ -24,13 +27,19 @@ $(function(){
     e.preventDefault();
 
     createHtmlElement(formData, function(err, $htmlElement){
-      if (err) alert(err);
-      $("#tree").append($htmlElement);  
+      if (err) { 
+        //$('#address').addClass('redbg');
+        $('#address').addClass('redbg');
+        return; 
+      }
+      $("#tree").append($htmlElement);
     })
-    
+
+    //on address focus: clear the error
+    $('#address').on('focus', function(e){
+      $('#address').removeClass('redbg');
+    })
   })
-
-
 })
 
 
@@ -45,15 +54,15 @@ function createHtmlElement(formData, cb){
     getCrawlerData(formData, function(requestErr, dataErr, data){
       if(requestErr) { console.error(requestErr); cb(requestErr); return; }
       if(dataErr) { console.error(dataErr); cb(dataErr); return; }
-      console.log(data);
+      //console.log(data);
       var renderedTemplate = createRenderedTemplate(data);
-      console.log(renderedTemplate);
+      //console.log(renderedTemplate);
       var $el = $(renderedTemplate);
       $el.find(".crawlButton").on("click", crawlButtonOnEvent);
+      $el.find(".detailsButton").on("click", detailsButtonOnEvent);
       $el.find(".addressTitle").on("click", setToggleLine);
       $el.find("li:last-child").addClass("last");
-      $li = $("<li></li>").append($el);
-      cb(null, $li);
+      cb(null, $el);
     })
 
 
@@ -102,18 +111,41 @@ function crawlButtonOnEvent(e){
   }
 
   createHtmlElement(formData, function(err, $htmlElement){
-    if (err) alert(err);
-    $line.replaceWith($htmlElement);  
+    if (err) {
+      //alert(err);
+      $(e.target).attr({'disabled':'true'});
+      $line.find('.url').first().addClass('red');
+      var $error = $line.find('.error').first();
+      $error[0].innerHTML += err;
+      $error.show();
+      return;
+    }
+    $li = $("<li></li>").append($htmlElement);
+    $line.replaceWith($li);  
   })
 }
 
+
+function detailsButtonOnEvent(e){
+  var $linkDetails = $(e.target).parent().parent().children('.linkDetails');
+  $linkDetails.slideToggle('fast');
+}
+
+
 function setToggleLine(e){
   e.stopPropagation();
-  var $treeLine = $(e.target).parent().parent();
 
-  $treeLine.children("ul").slideToggle('slow', function(){
+  var $treeLine = $(e.target).parent().parent();
+  if($treeLine.children("ul").css('display') === 'none') {
     $treeLine.find(".minusPlus>.smallLine").first().toggle();
     $treeLine.find(".minusPlus").first().toggleClass("minus");
     $treeLine.find(".minusPlus").first().toggleClass("plus");
-  });
+    $treeLine.children("ul").slideToggle('fast');
+  } else {
+    $treeLine.children("ul").slideToggle('fast', function(){
+      $treeLine.find(".minusPlus>.smallLine").first().toggle();
+      $treeLine.find(".minusPlus").first().toggleClass("minus");
+      $treeLine.find(".minusPlus").first().toggleClass("plus");
+    });
+  }
 }

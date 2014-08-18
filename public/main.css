@@ -84,7 +84,7 @@ body {
 }
 .treeLine { 
   margin-left:0;
-  }  /* first element has not margin */
+} 
 
 
 .smallLine {
@@ -98,7 +98,7 @@ body {
 ul {
   padding: 0;
   margin:0 0 0 10px;
-  background-color: green;
+  background-color: DarkSeaGreen;
   display:block;
   width:100%;
 }
@@ -132,26 +132,28 @@ li:last-child { border: none;}
 
 .addressHeader {
   /*position: relative;*/
-  margin:0 0 0 0;
+  margin:0;
 }
 
 .minus, .plus{
   float:left;
   position:relative;
-  left:3px;
+  left:4px;
   top:0;
   width:12px;
   height:12px;
-  background-color: rgba(160,160,160,0.75);
-  border: 1px solid #8C8C8C;
-  color: #fff;
+  /*color: #fff;*/
   margin-top: 4px;
   margin-right: 5px;
-  text-align: center;
-  font-weight: bold;
+  /*text-align: center;*/
+
 }
-.minus:after {  content: "-"; }
-.plus:after {  content: "+"; }
+.minus {  
+  background: url('images/minus.svg');
+}
+.plus {
+  background: url('images/plus.svg');
+}
 
 .minusPlus>.smallLine {
   float:left;
@@ -163,16 +165,16 @@ li:last-child { border: none;}
   margin-right: 2px;
   margin-top:18px;
   width:5px;
-  height:5px;
+  height:6px;
 }
 
 .addressTitle {
   /*border-left: 1px solid #8C8C8C ;*/
-  padding-left: 2px;
+  
   padding:0;
   margin:0;
+  padding-left: 2px;
   /*margin-left: 10px;*/
-  padding-left:0px;
   padding-top: 2px;
   /*padding-bottom: 5px;*/
   min-height: 20px;
@@ -198,7 +200,7 @@ li:last-child { border: none;}
 
 
 .mainLink>.url{
-  background-color: red;
+  background-color: Wheat;
   float:left;
   width: 65%;
   overflow: hidden;
@@ -208,6 +210,7 @@ li:last-child { border: none;}
 }
 
 .linkDetails {
+  display: none;
   background-color: lightblue;
   float:left;
   width:97%;
@@ -216,6 +219,9 @@ li:last-child { border: none;}
   padding:5px;
 }
 
+.url {
+  padding-left: 2px;
+}
 
 .errorMessage {
   width: 16%;
@@ -235,4 +241,18 @@ li:last-child { border: none;}
   width:15%;
   padding: 0;
   margin: 0;
+}
+
+.red {
+  color:#CC0000;
+  font-weight: bold;
+}
+
+
+.error {
+  display:none;
+}
+
+.redbg {
+  border: 1px solid red;
 }

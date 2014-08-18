@@ -13,11 +13,12 @@
       {{! Link element }}
       <div class="mainLink">
         <div class="smallLine"></div>
-        <div class="url">LINK: {{addressObj.originalUrl}}</div>
+        <div class="url">{{addressObj.originalUrl}}</div>
         <button class="crawlButton"> Crawl </button>
         <button class="detailsButton"> Details </button>
       </div>
       <div class="linkDetails">
+          <div class="error red">Error on http request: </div>
           Parsed Url: {{addressObj.parsedUrl}} <br />
           Parent: {{addressObj.parsedParentHost}}<br />
           Main host: {{addressObj.parsedMainHost}}<br />
@@ -26,8 +27,10 @@
           Same host as parent: {{addressObj.sameAsHost}}<br />
           Same host as main address: {{addressObj.sameAsMainHost}}<br />
           Parsed: {{parsed}}<br />
-          Http request responseive: {{httpGetResponsive}}<br />
-          Itteration: {{itterations}}<br />
+          {{#httpGetResponsive}}
+            Http request responseive: {{httpGetResponsive}}<br />
+          {{/httpGetResponsive}}
+          <!-- Itteration: {{itterations}}<br /> -->
       </div>
 
 
