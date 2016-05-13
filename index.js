@@ -27,19 +27,13 @@ app.get('/crawl', function(req,res){
   });
 
 
-// var o1 = new Obj("http://www.google.com/", 2);
-// console.log('o1: ',o1);
-// //console.log('o1.links[1].links: ',o1.links[0].links);
+  // var o1 = new Obj("http://www.google.com/", 2);
+  // console.log('o1: ',o1);
+  // //console.log('o1.links[1].links: ',o1.links[0].links);
 
-// setTimeout(function(){
-//   console.log('o1: ', o1);
-// }, 4000);
-
-
-
-
-
-
+  // setTimeout(function(){
+  //   console.log('o1: ', o1);
+  // }, 4000);
 });
 
 /*** ROUTES END***/

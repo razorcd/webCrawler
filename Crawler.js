@@ -66,7 +66,7 @@ Slave = function(address,host, itterations, internal, ev){
   this.httpGetNotResponsive = false;      //if current link was not responsive
   this.parsed = false;                    //if current link was parsed
   this.itterations=itterations;
-  
+
   this.isInternal = (function(){     //if link is on same host as host
     if (!_self.validAddress) return false;
     if (_self.address[0] === '/') return true;
@@ -80,7 +80,7 @@ Slave = function(address,host, itterations, internal, ev){
   this.links = [];
   //redirect = false;
 
-  
+
   //start crawling function
   if (!(internal && !_self.isInternal)) {   //start crawling only if NOT (internal is checked and the address is not internal)
     (function(addr,host,itt,internal,ev){
@@ -88,7 +88,7 @@ Slave = function(address,host, itterations, internal, ev){
       if (itt>0){
         if (!ev.done) ev.done=0;                          //(re)initiliasing curent itterations under execution  counter
         ev.done++;                                        //itterations in process counter +1
-        getAllLinks(addr,host,function(err, linksList){        
+        getAllLinks(addr,host,function(err, linksList){
           if(err) {   //getAllLinks returned err
             console.log('object error');
             _self.httpGetNotResponsive = true;
@@ -146,7 +146,7 @@ function _getPage(address,cb){
     //console.log("!!!!!!!!!!")
     cb(null, data);
   });
- 
+
 }
 
 
@@ -172,7 +172,7 @@ function _getElements(err, body, cb){
     start = body.search(startEmelent);
     if (start !== -1) {
       body = body.slice(start + startEmelent.length);
-      
+
       //fin = body.search('>');    //seach step by step
       for (i=0;i<body.length;i++){
         if( body[i] === '"' && !quotes2) quotes1 = !quotes1;
@@ -231,7 +231,7 @@ function _getLinks(err, elemArray, cb){
 function _validateUrl(address, internalAccepted){
   // TODO: still needs work
   //internal === true mean it accepts internal links (like: '/images')
-  if (internalAccepted) {  
+  if (internalAccepted) {
     if (address[0] === '/') return true;
   }
   var reg = new RegExp('((((https?)|(ftp)):\/\/)?((www\.)?([a-z0-9][a-z0-9:@]+)))([a-z0-9-_\/]+[\.])+([a-z0-9]{2,})');
@@ -253,7 +253,7 @@ function getAllLinks(address,host,cb1){
 
   address = _parseAddress(address, host);
 
-  
+
 
   _getPage(address,function(err,body){
     _getElements(err,body, function(err, elemArray){
@@ -282,10 +282,10 @@ function getAllLinks(address,host,cb1){
 
 //export functions for testing
 if (process.ENV === 'test') {
-	exports.getAllLinks = getAllLinks;
+  exports.getAllLinks = getAllLinks;
   exports._getPage = _getPage;
   exports._getElements = _getElements;
-	exports._getLinks = _getLinks;
+  exports._getLinks = _getLinks;
   exports.getAllLinks = getAllLinks;
   exports._parseAddress = _parseAddress;
   exports._getHost = _getHost;

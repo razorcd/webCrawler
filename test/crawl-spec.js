@@ -10,7 +10,7 @@ describe("crawl module", function() {
     wb1.ev.on('error', function(err){
       expect(err).toBeDefined();
       expect(err).toBe('Address not valid');
-      done();      
+      done();
     })
 
   });
@@ -47,7 +47,7 @@ describe("crawl module", function() {
       expect(wb2.ev).toBeUndefined();
       expect(wb2.itterations).toBe(2);
       expect(wb2.internalOnlyAccepted).toBe(false);
-      
+
       //itteration 1 exists:
       expect(wb2.data).toBeDefined();
       expect(wb2.data.links).toBeDefined();
@@ -76,7 +76,7 @@ describe("crawl module", function() {
       //expect(wb2.ev).toBeUndefined();
       expect(wb2.itterations).toBe(2);
       expect(wb2.internalOnlyAccepted).toBe(true);
-      
+
       //itteration 1 exists:
       expect(wb2.data).toBeDefined();
       expect(wb2.data.links).toBeDefined();
@@ -98,7 +98,7 @@ describe("crawl module", function() {
   });
 
 
-  
+
 });
 
 

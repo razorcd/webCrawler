@@ -1,9 +1,6 @@
 var httpGet = require('./httpGet.js');
 console.log('----------------------');
 
-//var address = 'http://www.razor3ds.com/ftp/GS/Designer_Batteries.zip';
-//var address = 'http://www.java.com';
-//var address = 'sdfgdfgsdfgdfg';
 var address = 'http://search.bbc.co.uk/search';
 
 httpGet(address, function(err, data, redirect){

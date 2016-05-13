@@ -16,7 +16,7 @@ module.exports = function httpGet(address,cb, _redirect, _itterations, _domain, 
       console.log('Initial Address: ', _initialAddress);
       _itterations = 6;
       //_domain = _getHost(address);
-      
+
       _domain = " ";//config.domain;
       //_domain = "www.oracle.com";
       console.log ("         _domain: ", _domain);
@@ -30,7 +30,7 @@ module.exports = function httpGet(address,cb, _redirect, _itterations, _domain, 
         console.log('Initial Address: ', _initialAddress);
         _itterations = 6;
         //_domain = _getHost(address);
-        
+
         _domain = config.domain;
         //_domain = "www.oracle.com";
         console.log ("         _domain: ", _domain);
@@ -120,7 +120,7 @@ module.exports = function httpGet(address,cb, _redirect, _itterations, _domain, 
 function _validateUrl(address, internalAccepted){
   // TODO: still needs work
   //internal === true mean it accepts internal links (like: '/images')
-  if (internalAccepted) {  
+  if (internalAccepted) {
     if (address[0] === '/') return true;
   }
   var reg = new RegExp('((((https?)|(ftp)):\/\/)?((www\.)?([a-z0-9][a-z0-9:@]+)))([a-z0-9-_\/]+[\.])+([a-z0-9]{2,})');
