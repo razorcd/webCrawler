@@ -1,5 +1,5 @@
 body {
-  font-family : "Arial", "Helvetica Neue Light", "Lucida Grande", "Calibri" , sans-serif; 
+  font-family : "Arial", "Helvetica Neue Light", "Lucida Grande", "Calibri" , sans-serif;
   font-size: 10pt;
   word-wrap: break-word;
 }
@@ -73,7 +73,7 @@ body {
 #tree {
   width:800px;
   margin: 0 auto;
-  background-color: orange;
+  /*background-color: orange;*/
   display:block;
 }
 
@@ -82,9 +82,9 @@ body {
 #tree .treeLine {
   /*border: 1px solid black;*/
 }
-.treeLine { 
+.treeLine {
   margin-left:0;
-} 
+}
 
 
 .smallLine {
@@ -98,7 +98,7 @@ body {
 ul {
   padding: 0;
   margin:0 0 0 10px;
-  background-color: DarkSeaGreen;
+  /*background-color: DarkSeaGreen;*/
   display:block;
   width:100%;
 }
@@ -148,7 +148,7 @@ li:last-child { border: none;}
   /*text-align: center;*/
 
 }
-.minus {  
+.minus {
   background: url('images/minus.svg');
 }
 .plus {
@@ -170,7 +170,7 @@ li:last-child { border: none;}
 
 .addressTitle {
   /*border-left: 1px solid #8C8C8C ;*/
-  
+
   padding:0;
   margin:0;
   padding-left: 2px;
@@ -178,7 +178,7 @@ li:last-child { border: none;}
   padding-top: 2px;
   /*padding-bottom: 5px;*/
   min-height: 20px;
-  background-color: cyan;
+  /*background-color: cyan;*/
   float:left;
   width:97%;
   font-weight: bold;
@@ -190,17 +190,17 @@ li:last-child { border: none;}
 }
 
 .linkElement {
-  background-color: pink;
+  /*background-color: pink;*/
   float:left;
   width:99%;
-  
-  /*white-space:nowrap; 
+
+  /*white-space:nowrap;
   text-overflow:ellipsis;*/
 }
 
 
 .mainLink>.url{
-  background-color: Wheat;
+  /*background-color: Wheat;*/
   float:left;
   width: 65%;
   overflow: hidden;
@@ -211,7 +211,7 @@ li:last-child { border: none;}
 
 .linkDetails {
   display: none;
-  background-color: lightblue;
+  /*background-color: lightblue;*/
   float:left;
   width:97%;
   font-size: 8pt;

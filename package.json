@@ -1,6 +1,6 @@
 {
   "name": "WebCrawler",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "web crawler",
   "main": "index.js",
   "scripts": {
@@ -13,40 +13,10 @@
   "author": "Razor",
   "license": "MIT",
   "dependencies": {
-    "express": "^3.14.0",
-    "jasmine": "^2.4.1"
+    "express": "^3.14.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/razorcd/webCrawler.git"
   }
 }
-
-
-
-
-    "chai": "^3.5.0",
-    "coveralls": "^2.11.9",
-    "event-stream": "^3.3.2",
-    "gulp": "^3.9.1",
-    "gulp-clean": "^0.3.2",
-    "gulp-concat": "^2.6.0",
-    "gulp-jshint": "^2.0.0",
-    "gulp-ng-annotate": "^2.0.0",
-    "gulp-plumber": "^1.1.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^1.5.3",
-    "jasmine-core": "^2.4.1",
-    "jquery": "^2.2.3",
-    "jshint": "^2.9.2",
-    "jshint-stylish": "^2.1.0",
-    "karma": "^0.13.22",
-    "karma-chrome-launcher": "^0.2.3",
-    "karma-coverage": "^1.0.0",
-    "karma-firefox-launcher": "^0.1.7",
-    "karma-jasmine": "^0.3.8",
-    "karma-jasmine-matchers": "^2.0.2",
-    "karma-mocha-reporter": "^2.0.2",
-    "karma-phantomjs-launcher": "^1.0.0",
-    "map-stream": "^0.0.6",
-    "phantomjs-prebuilt": "^2.1.7"

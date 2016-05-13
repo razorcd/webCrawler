@@ -1,5 +1,5 @@
 #Web Crawler
-v0.8(alpha)
+v0.10(beta)
 
 
 Made with node.js and express, no parsing libraries.
