@@ -27,10 +27,10 @@ $(function(){
     e.preventDefault();
 
     createHtmlElement(formData, function(err, $htmlElement){
-      if (err) { 
+      if (err) {
         //$('#address').addClass('redbg');
         $('#address').addClass('redbg');
-        return; 
+        return;
       }
       $("#tree").append($htmlElement);
     })
@@ -71,7 +71,7 @@ function createHtmlElement(formData, cb){
 
 //AJAX data request
 var getCrawlerData = function(formData, cb){
-  var address = '/crawl?address=' + formData.address + '&hostaddress=' + (formData.hostaddress||'') 
+  var address = '/crawl?address=' + formData.address + '&hostaddress=' + (formData.hostaddress||'')
       + '&itterations=' + 1 + '&internal=' + formData.internal + '&format=' + formData.web;
 
   $.ajax({
@@ -121,7 +121,7 @@ function crawlButtonOnEvent(e){
       return;
     }
     $li = $("<li></li>").append($htmlElement);
-    $line.replaceWith($li);  
+    $line.replaceWith($li);
   })
 }
 
